@@ -28,3 +28,35 @@ FALLBACK_CAREER_OPTIONS = {
     '5': {'name': 'Marketing Manager', 'income': 6000},
 }
 
+# Fallback for the new rent options (happiness removed)
+FALLBACK_RENT_OPTIONS = [
+    {"description": "A small room in a shared house far from the city center.", "cost": 800},
+    {"description": "A decent studio apartment with a reasonable commute.", "cost": 1200},
+    {"description": "A modern one-bedroom apartment downtown.", "cost": 2000},
+    {"description": "Living with parents to save money.", "cost": 200},
+    {"description": "A stylish loft with great amenities.", "cost": 2500}
+]
+
+# Fallback for the monthly spending choices
+FALLBACK_MONTHLY_CHOICES = [
+    {"text": "Buy new running shoes", "cost": -120},
+    {"text": "Subscribe to Apple Music", "cost": -10},
+    {"text": "Cancel your streaming service", "cost": 0},
+    {"text": "Buy daily coffee all month", "cost": -75},
+    {"text": "Join a gym", "cost": -60},
+    {"text": "Eat out every weekend", "cost": -200},
+    {"text": "Donate to a charity", "cost": -50},
+    {"text": "Buy a video game", "cost": -60},
+    {"text": "Take a short trip", "cost": -300},
+    {"text": "Buy books for self-study", "cost": -40},
+]
+
+# Fallback for the random life event
+FALLBACK_LIFE_EVENT = {
+    "eventDescription": "Your phone broke and you need a replacement.",
+    "choices": [
+        {"text": "Buy a new iPhone", "cost": -1200},
+        {"text": "Buy a budget Android", "cost": -300},
+        {"text": "Borrow a phone and wait", "cost": 0}
+    ]
+}
