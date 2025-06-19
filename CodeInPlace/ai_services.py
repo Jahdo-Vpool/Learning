@@ -1,6 +1,6 @@
 import requests
 import json
-from config import API_URL, FALLBACK_CAREER_OPTIONS, FALLBACK_RENT_OPTIONS, FALLBACK_LIFE_EVENT, FALLBACK_MONTHLY_CHOICES
+from config import API_URL, FALLBACK_JOB, FALLBACK_RENT_OPTIONS, FALLBACK_LIFE_EVENT, FALLBACK_MONTHLY_CHOICES
 
 def call_gemini(payload):
     """
@@ -13,35 +13,29 @@ def call_gemini(payload):
     result = response.json()
     return json.loads (result['candidates'][0]['content']['parts'][0]['text'])
 
-def generate_career_options(country):
+def generate_random_job(country):
     """Generates the career options for a given country."""
     print(f'Thinking.....\nGenerating career options for {country}.....')
-    sentence_1 = 'Generate a list of 5 common careers for {country}.'
-    sentence_2 = 'For each career, provide: name and average monthly income in USD.'
-    sentence_3 = 'Example: my_career={career:Physics teacher, monthly_income:3200}'
-    prompt = f'{sentence_1} {sentence_2} {sentence_3}'
+    sentence_1 = f'Generate a single, common starting job for a young person in {country}.'
+    sentence_2 = 'The job should be from a diverse sector.'
+    sentence_3 = 'For each career, provide: name and monthly income in USD, adjusted for the local cost of living. The income should be a reasonable starting salary and no less than $1000 USD per month.'
+    sentence_4 = 'Example: my_career={career:Physics teacher, monthly_income:3200}'
+    prompt = f'{sentence_1} {sentence_2} {sentence_3} {sentence_4}'
 
     schema = {
         "type": "OBJECT", "properties": {
-            "careers": {
-                "type": "ARRAY", "items": {
-                    "type": "OBJECT", "properties": {
-                        "name": {"type": "STRING"},
-                        "income": {"type": "NUMBER"}
-                    }, "required": ["name", "income"]
-                }
-            }
-        }, "required": ["careers"]
+            "name": {"type": "STRING"},
+            "income": {"type": "NUMBER"}
+        }, "required": ["name", "income"]
     }
     payload = {"contents": [{"parts": [{"text": prompt}]}],
                "generationConfig": {"responseMimeType": "application/json", "responseSchema": schema}}
 
     try:
-        data = call_gemini(payload)
-        return {str(i+1): career for i, career in enumerate(data['career'])}
+        return call_gemini(payload)
     except Exception as e:
-        print(f"AI career generation failed ({e}), using fallback career options.")
-        return FALLBACK_CAREER_OPTIONS
+        print(f"AI job generation failed ({e}), using fallback job.")
+        return FALLBACK_JOB
 
 def generate_rent_options(country, income):
     """Generates 5 realistic rental options based on country and income."""
@@ -57,8 +51,7 @@ def generate_rent_options(country, income):
                     "type": "OBJECT", "properties": {
                         "description": {"type": "STRING"},
                         "cost": {"type": "NUMBER"},
-                        "happinessEffect": {"type": "NUMBER"}
-                    }, "required": ["description", "cost", "happinessEffect"]
+                    }, "required": ["description", "cost"]
                 }
             }
         }, "required": ["rentals"]
@@ -76,25 +69,16 @@ def generate_life_event(player_profile):
     """Generates a random, contextual life event for the player."""
     print("Thinking of a random life event...")
     sentence_1 = f'Create a realistic life event for someone who is a {player_profile['career']} in {player_profile['country']}'
-    sentence_2 = 'Provide 3 choices for the player to make.'
-    sentence_3 = 'IMPORTANT: The event must be simple, lighthearted, and appropriate for a child.  Avoid serious topics'
-    sentence_4 = 'Focus on fun opportunities, minor mishaps, or social events. The financial costs should be small and manageable.'
+    sentence_2 = 'IMPORTANT: The event must be simple, lighthearted, and appropriate for a child.  Avoid serious topics'
+    sentence_3 = 'Focus on fun opportunities, minor mishaps, or social events. The financial costs should be small and manageable.'
 
-    prompt = f"{sentence_1} {sentence_2} {sentence_3} {sentence_4}"
+    prompt = f"{sentence_1} {sentence_2} {sentence_3}"
 
     schema = {
         "type": "OBJECT", "properties": {
             "eventDescription": {"type": "STRING"},
-            "choices": {
-                "type": "ARRAY", "items": {
-                    "type": "OBJECT", "properties": {
-                        "text": {"type": "STRING"},
-                        "cost": {"type": "NUMBER"},
-                        "happinessChange": {"type": "NUMBER"}
-                    }, "required": ["text", "cost", "happinessChange"]
-                }
-            }
-        }, "required": ["eventDescription", "choices"]
+            "cost": {"type": "NUMBER"}
+        }, "required": ["eventDescription", "cost"]
     }
     payload = {"contents": [{"parts": [{"text": prompt}]}],
                "generationConfig": {"responseMimeType": "application/json", "responseSchema": schema}}
@@ -118,8 +102,8 @@ def generate_monthly_choices(player_profile):
                     "type": "OBJECT", "properties": {
                         "text": {"type": "STRING"},
                         "cost": {"type": "NUMBER"},
-                        "happinessChange": {"type": "NUMBER"}
-                    }, "required": ["text", "cost", "happinessChange"]
+
+                    }, "required": ["text", "cost"]
                 }
             }
         }, "required": ["choices"]

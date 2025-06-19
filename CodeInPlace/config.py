@@ -19,14 +19,8 @@ API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:gene
 
 GAME_LENGTH_MONTHS = 12
 
-# Dictionary of jobs incase the AI fails
-FALLBACK_CAREER_OPTIONS = {
-    '1': {'name': 'Software Engineer', 'income': 7000},
-    '2': {'name': 'Teacher', 'income': 4000},
-    '3': {'name': 'Graphic Designer', 'income': 5000},
-    '4': {'name': 'Nurse', 'income': 5500},
-    '5': {'name': 'Marketing Manager', 'income': 6000},
-}
+# Incase the AI fails
+FALLBACK_JOB= {'name': 'Teacher', 'income': 4000}
 
 # Fallback for the new rent options (happiness removed)
 FALLBACK_RENT_OPTIONS = [
@@ -53,10 +47,6 @@ FALLBACK_MONTHLY_CHOICES = [
 
 # Fallback for the random life event
 FALLBACK_LIFE_EVENT = {
-    "eventDescription": "Your phone broke and you need a replacement.",
-    "choices": [
-        {"text": "Buy a new iPhone", "cost": -1200},
-        {"text": "Buy a budget Android", "cost": -300},
-        {"text": "Borrow a phone and wait", "cost": 0}
-    ]
+    "eventDescription": "You received a surprise refund from your internet provider!",
+    "cost": 50
 }
