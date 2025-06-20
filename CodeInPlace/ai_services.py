@@ -14,12 +14,12 @@ def call_gemini(payload):
     return json.loads (result['candidates'][0]['content']['parts'][0]['text'])
 
 def generate_random_job(country):
-    """Generates the career options for a given country."""
+    """Generates a job based on country."""
     print(f'Thinking.....\nGenerating career options for {country}.....')
     sentence_1 = f'Generate a single, common starting job for a young person in {country}.'
-    sentence_2 = 'The job should be from a diverse sector.'
-    sentence_3 = 'For each career, provide: name and monthly income in USD, adjusted for the local cost of living. The income should be a reasonable starting salary and no less than $1000 USD per month.'
-    sentence_4 = 'Example: my_career={career:Physics teacher, monthly_income:3200}'
+    sentence_2 = 'The job should be from a diverse sector and always random in nature.'
+    sentence_3 = 'Provide the name and monthly income in USD, adjusted for the local cost of living. The income should be a reasonable starting salary and no less than $1000 USD per month.'
+    sentence_4 = 'Example: my_career={career:Physics teacher, monthly_income:2500}'
     prompt = f'{sentence_1} {sentence_2} {sentence_3} {sentence_4}'
 
     schema = {

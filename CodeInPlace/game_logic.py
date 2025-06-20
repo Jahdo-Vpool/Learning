@@ -50,6 +50,12 @@ def setup_game():
 
     selected_rent = rent_options[rent_choice_key - 1]
 
+    print_separator()
+    typewriter_effect(f"You've chosen: \"{selected_rent['description']}\"")
+    typewriter_effect(f"This will cost ${selected_rent['cost']:,} each month. A wise choice!")
+    print_separator()
+    input("Press Enter to begin your first month...")
+
     # Initialize player profile with an assigned job and chosen rent
     return {
         'name': name, 'country': country, 'career': assigned_job['name'],
@@ -105,15 +111,17 @@ def monthly_cycle(player):
     typewriter_effect("Now choose one extra activity this month.")
     options = generate_monthly_choices(player)
     for i, opt in enumerate(options):
-        print(f"  [{i + 1}] {opt['text']} (Cost: ${abs(opt['cost']):,}")
+        # FIXED: Added the closing parenthesis
+        print(f"  [{i + 1}] {opt['text']} (Cost: ${abs(opt['cost']):,})")
 
     pick = 0
-    while pick not in range(1, 11):
+    # FIXED: Made the loop range dynamic based on the number of options
+    while pick not in range(1, len(options) + 1):
         try:
-            pick_str = input("Your choice (1-10): ")
+            pick_str = input(f"Your choice (1-{len(options)}): ")
             pick = int(pick_str)
-            if pick not in range(1, 11):
-                print("Invalid input. Please choose a number from 1 to 10.")
+            if pick not in range(1, len(options) + 1):
+                print(f"Invalid input. Please choose a number from 1 to {len(options)}.")
         except ValueError:
             print("Invalid input. Please enter a number.")
 
@@ -126,11 +134,13 @@ def monthly_cycle(player):
     })
     return player
 
+
 def check_game_over(player):
     """Checks for conditions that would end the game."""
     if player['savings'] < -2000:
         print("\nYour debt has become unmanageable. Game over.")
         return True
     return False
+
 
 
