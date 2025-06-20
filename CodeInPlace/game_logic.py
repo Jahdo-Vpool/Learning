@@ -14,10 +14,10 @@ def setup_game():
     """Initializes the game by getting player info, assigning a job, and setting housing."""
     # Start with a clean screen and a welcome message.
     clear_screen()
-    typewriter_effect("Welcome to AI Finance Quest!")
+    typewriter_effect("Welcome to Budget Craft!")
     print_separator()
     name = input("What is your name? ")
-    country = input("Which country are you from? ")
+    country = input("Where do you reside in this beautiful world? ")
 
     # --- Job Assignment ---
     # Call the AI service to get a random job based on the player's country.
