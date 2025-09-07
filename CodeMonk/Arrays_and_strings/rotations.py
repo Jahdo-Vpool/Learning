@@ -20,7 +20,7 @@ while t != 0:
     # Compute effective rotation using modulo to avoid unnecessary full rotations
     index = n - (k % n)
 
-    # Print rotated array using slicing (cleaner than two loops)
+    # Print rotated array using slicing
     rotated = arr[index:] + arr[:index]
     print(*rotated)  # * unpacks list into space-separated values
 
