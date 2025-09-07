@@ -11,8 +11,6 @@ the end wrapping back to the beginning.
 */
 
 
-
-
 // Rotate an array by k positions to the right
 const rotateArray = (arr, k) => {
     // Get length of array
