@@ -32,7 +32,9 @@ while t:
 
     # Read the matrix as a list of lists
     # Each row is read, split into integers, and appended
-    arr = [list(map(int, input().split())) for ij in range(n)]
+    arr = []
+    for _ in range(n):
+        arr.append(list(map(int, input().split())))
 
     # Variable to store the inversion count
     count = 0
